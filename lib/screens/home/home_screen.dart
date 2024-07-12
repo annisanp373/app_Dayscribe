@@ -7,10 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/models/blog.dart';
 import 'package:myapp/screens/home/widgets/item_blog.dart';
 
-// Make sure you have your LoginScreen defined somewhere
-// For example:
-
-// 'package:myapp/screens/home/home_screen.dart'
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -21,6 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -43,16 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: StreamBuilder(
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2303266102.
-          stream:
-              FirebaseFirestore.instance.collection('dayscribe').snapshots(),
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:199848937.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:390301483.
+          stream: FirebaseFirestore.instance
+              .collection('dayscribe')
+              .where('userId', isEqualTo: user?.uid) // Only fetch notes for the current user
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1737704100.
             if (snapshot.hasData && snapshot.data != null) {
               final data = snapshot.data!.docs;
               List<Blog> blogs = [];
@@ -61,14 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 blogs.add(blog);
               }
               return ListView(
-                padding: const EdgeInsets.all(15) ,
+                padding: const EdgeInsets.all(15),
                 children: [
-                  for (var blog in blogs)
-                    ItemBlog(blog: blog)
+                  for (var blog in blogs) ItemBlog(blog: blog)
                 ],
               );
             }
-            return SizedBox();
+            return const SizedBox();
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
