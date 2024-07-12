@@ -35,39 +35,40 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
             )
           ],
         ),
-        body: loading? const Center(child: CircularProgressIndicator()):
-        
-        Form(
-          key: formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(15),
-            children: [
-              TextFormField(
-                controller: title,
-                decoration: InputDecoration(),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your title';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              TextFormField(
-                controller: description,
-                maxLines: 10,
-                decoration: InputDecoration(
-                    hintText: 'Description', border: OutlineInputBorder()),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your description';
-                  }
-                  return null;
-                },
-              ),
-            ],
-          ),
-        ));
+        body: loading
+            ? const Center(child: CircularProgressIndicator())
+            : Form(
+                key: formKey,
+                child: ListView(
+                  padding: const EdgeInsets.all(15),
+                  children: [
+                    TextFormField(
+                      controller: title,
+                      decoration: InputDecoration(),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your title';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: description,
+                      maxLines: 10,
+                      decoration: InputDecoration(
+                          hintText: 'Description',
+                          border: OutlineInputBorder()),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your description';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ));
   }
 
   addBlog() async {
@@ -87,12 +88,12 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
         loading = false;
       });
       Navigator.pop(context);
-    }on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       setState(() {
         loading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message?? '')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message ?? '')));
     }
-    
   }
 }

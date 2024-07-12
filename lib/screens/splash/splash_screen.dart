@@ -45,10 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
             height: 100,
           ),
           const SizedBox(height: 16), // Add some spacing
-          const Text(
-            'Dayscribe',
-            style: TextStyle(fontSize: 20),
-          ),
+          
         ],
       ),
     ));
