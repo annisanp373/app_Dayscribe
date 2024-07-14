@@ -3,26 +3,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/blog.dart';
 
-class AddBlogScreen extends StatefulWidget {
-  const AddBlogScreen({super.key});
+class EditBlogScreen extends StatefulWidget {
+  final Blog blog;
+
+  const EditBlogScreen({required this.blog, Key? key}) : super(key: key);
 
   @override
-  State<AddBlogScreen> createState() => _AddBlogScreenState();
+  State<EditBlogScreen> createState() => _EditBlogScreenState();
 }
 
-class _AddBlogScreenState extends State<AddBlogScreen> {
-  final title = TextEditingController();
-  final description = TextEditingController();
+class _EditBlogScreenState extends State<EditBlogScreen> {
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
+  late bool isPinned;
   final formKey = GlobalKey<FormState>();
   bool loading = false;
-  bool isPinned = false;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.blog.title);
+    descriptionController = TextEditingController(text: widget.blog.desc);
+    isPinned = widget.blog.isPinned;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 241, 225, 254),
-        title: const Text('Add Blog'),
+        title: const Text('Edit Blog'),
         actions: [
           IconButton(
             onPressed: () {
@@ -30,7 +40,7 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                 setState(() {
                   loading = true;
                 });
-                addBlog();
+                editBlog();
               }
             },
             icon: const Icon(Icons.done),
@@ -48,7 +58,7 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          controller: title,
+                          controller: titleController,
                           decoration: const InputDecoration(hintText: 'Title'),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -73,10 +83,12 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: description,
+                    controller: descriptionController,
                     maxLines: 10,
                     decoration: const InputDecoration(
-                        hintText: 'Description', border: OutlineInputBorder()),
+                      hintText: 'Description',
+                      border: OutlineInputBorder(),
+                    ),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter your description';
@@ -90,23 +102,23 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
     );
   }
 
-  addBlog() async {
-    final user = FirebaseAuth.instance.currentUser;
+  editBlog() async {
     final db = FirebaseFirestore.instance.collection("dayscribe");
-    Blog newBlog = Blog(
-      id: db.doc().id,
-      userId: user!.uid,
-      title: title.text,
-      desc: description.text,
-      createdAt: DateTime.now(),
+    Blog updatedBlog = Blog(
+      id: widget.blog.id,
+      userId: widget.blog.userId,
+      title: titleController.text,
+      desc: descriptionController.text,
+      createdAt: widget.blog.createdAt,
       isPinned: isPinned,
     );
+
     try {
-      await db.doc(newBlog.id).set(newBlog.toMap());
+      await db.doc(widget.blog.id).update(updatedBlog.toMap());
       setState(() {
         loading = false;
       });
-      Navigator.pop(context, true);
+      Navigator.pop(context);
     } on FirebaseException catch (e) {
       setState(() {
         loading = false;

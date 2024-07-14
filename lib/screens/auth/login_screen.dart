@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/auth/register_screen.dart';
 import 'package:myapp/screens/home/home_screen.dart';
@@ -21,19 +20,34 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Expanded(
-          child: Form(
-            key: formKey,
-            child: ListView(
-              padding: const EdgeInsets.all(15),
-              children: [
-                const SizedBox(height: 100),
-                Text('Login', style: Theme.of(context).textTheme.displaySmall),
-                const Text('Please enter your email and password to login'),
-                const SizedBox(height: 30),
-                TextFormField(
+      body: Container(
+        color: const Color.fromARGB(255, 241, 225, 254), // Warna latar belakang
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            margin: const EdgeInsets.symmetric(horizontal: 30.0),
+            decoration: BoxDecoration(
+              color: Colors.white, // Warna kotak formulir
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Form(
+              key: formKey,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Text(
+                    'Login',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Please enter your email and password to login',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 30),
+                  TextFormField(
                     controller: email,
                     decoration: const InputDecoration(hintText: 'Email'),
                     validator: (value) {
@@ -41,54 +55,54 @@ class _LoginScreenState extends State<LoginScreen> {
                         return 'Please enter your email';
                       }
                       return null;
-                    }),
-                const SizedBox(height: 15),
-                TextFormField(
-                  controller: password,
-                  obscureText: true,
-                  decoration: const InputDecoration(hintText: 'password'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 30),
-                loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            setState(() {
-                              loading = true;
-                            });
-                            startLogin();
-                          }
-                        },
-                        child: const Text('Login'),
-                      )
-              ],
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: password,
+                    obscureText: true,
+                    decoration: const InputDecoration(hintText: 'Password'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              setState(() {
+                                loading = true;
+                              });
+                              startLogin();
+                            }
+                          },
+                          child: const Text('Login'),
+                        ),
+                  const SizedBox(height: 15),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                      );
+                    },
+                    child: const Text('Don\'t have an account? Register now'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-        OutlinedButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const RegisterScreen()));
-          },
-          child: const Text('Dont Have an account? REgister Now'),
-        ),
-        const SizedBox(
-          height: 15,
-        )
-      ],
-    ));
+      ),
+    );
   }
 
   startLogin() async {
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2249118975.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1825384386.
     try {
       await auth.signInWithEmailAndPassword(
           email: email.text, password: password.text);
@@ -96,9 +110,10 @@ class _LoginScreenState extends State<LoginScreen> {
         loading = false;
       });
       Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
-          (route) => false);
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       setState(() {
         loading = false;
