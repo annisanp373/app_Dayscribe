@@ -32,7 +32,7 @@ class _EditBlogScreenState extends State<EditBlogScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 241, 225, 254),
-        title: const Text('Edit Blog'),
+        title: const Text('Edit Notes'),
         actions: [
           IconButton(
             onPressed: () {

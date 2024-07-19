@@ -22,7 +22,7 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 241, 225, 254),
-        title: const Text('Add Blog'),
+        title: const Text('Add Notes'),
         actions: [
           IconButton(
             onPressed: () {

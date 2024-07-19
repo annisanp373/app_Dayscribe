@@ -11,7 +11,7 @@ class BlogDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 241, 225, 254),
-        title: Text('Detail Blog'),
+        title: Text('Detail Notes'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

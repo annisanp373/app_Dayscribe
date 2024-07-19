@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
       batch.delete(docRef);
     }
     batch.commit().then((_) {
-      print("Blogs successfully deleted");
+      print("Note successfully deleted");
       setState(() {
         _blogs.removeWhere((blog) => _selectedBlogIds.contains(blog.id));
         _filteredBlogs
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _isDeleting = false; // Reset delete mode
       });
     }).catchError((error) {
-      print("Failed to delete blogs: $error");
+      print("Failed to delete note: $error");
     });
   }
 
@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _filteredBlogs.isEmpty
-          ? const Center(child: Text('No blogs found'))
+          ? const Center(child: Text('How was your day?'))
           : ListView.builder(
               padding: const EdgeInsets.all(15),
               itemCount: _filteredBlogs.length,
