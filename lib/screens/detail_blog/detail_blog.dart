@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/blog.dart';
+import 'package:dayscribe/models/blog.dart';
 
 class BlogDetailScreen extends StatelessWidget {
   final Blog blog;

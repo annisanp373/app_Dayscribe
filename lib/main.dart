@@ -8,11 +8,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(const DayScribe());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DayScribe extends StatelessWidget {
+  const DayScribe({super.key});
 
   // This widget is the root of your application.
   @override

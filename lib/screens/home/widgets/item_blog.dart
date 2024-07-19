@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myapp/models/blog.dart';
-import 'package:myapp/screens/detail_blog/detail_blog.dart'; // Import layar detail
-import 'package:myapp/screens/edit_blog/edit_blog_screen.dart';
+import 'package:dayscribe/models/blog.dart';
+import 'package:dayscribe/screens/detail_blog/detail_blog.dart'; // Import layar detail
+import 'package:dayscribe/screens/edit_blog/edit_blog_screen.dart';
 
 class ItemBlog extends StatelessWidget {
   final Blog blog;

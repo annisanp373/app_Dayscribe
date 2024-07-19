@@ -2,10 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:myapp/models/blog.dart';
-import 'package:myapp/screens/add_blog/add_blog_screen.dart';
-import 'package:myapp/screens/auth/login_screen.dart';
-import 'package:myapp/screens/home/widgets/item_blog.dart';
+import 'package:dayscribe/models/blog.dart';
+import 'package:dayscribe/screens/add_blog/add_blog_screen.dart';
+import 'package:dayscribe/screens/auth/login_screen.dart';
+import 'package:dayscribe/screens/home/widgets/item_blog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
